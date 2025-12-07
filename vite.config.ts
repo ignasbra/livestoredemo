@@ -25,7 +25,11 @@ export default defineConfig({
     {
       name: 'wrangler-dev',
       configureServer: async (server) => {
-        const wrangler = spawn('bunx', ['wrangler', 'dev', '--port', '8787'], {
+        const wranglerCmd = process.platform === 'win32' 
+          ? './node_modules/.bin/wrangler.cmd' 
+          : './node_modules/.bin/wrangler'
+        
+        const wrangler = spawn(wranglerCmd, ['dev', '--port', '8787'], {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true,
         })
