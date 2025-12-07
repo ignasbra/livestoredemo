@@ -12,6 +12,7 @@ export default defineConfig({
   worker: { format: 'es' },
   define: {
     '__livestore': 'undefined',
+    'process.env.VITE_LIVESTORE_SYNC_URL': JSON.stringify(process.env.VITE_LIVESTORE_SYNC_URL || 'http://localhost:8787'),
   },
   optimizeDeps: {
     exclude: ['@livestore/wa-sqlite'],
