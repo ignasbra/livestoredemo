@@ -11,6 +11,16 @@ export const tables = {
       deletedAt: State.SQLite.integer({ nullable: true, schema: Schema.DateFromNumber }),
     },
   }),
+  solarPanels: State.SQLite.table({
+    name: 'solarPanels',
+    columns: {
+      id: State.SQLite.text({ primaryKey: true }),
+      x: State.SQLite.real(),
+      y: State.SQLite.real(),
+      z: State.SQLite.real(),
+      deletedAt: State.SQLite.integer({ nullable: true, schema: Schema.DateFromNumber }),
+    },
+  }),
   // Client documents can be used for local-only state (e.g. form inputs)
   uiState: State.SQLite.clientDocument({
     name: 'uiState',
@@ -41,6 +51,14 @@ export const events = {
     name: 'v1.TodoClearedCompleted',
     schema: Schema.Struct({ deletedAt: Schema.Date }),
   }),
+  solarPanelCreated: Events.synced({
+    name: 'v1.SolarPanelCreated',
+    schema: Schema.Struct({ id: Schema.String, x: Schema.Number, y: Schema.Number, z: Schema.Number }),
+  }),
+  solarPanelDeleted: Events.synced({
+    name: 'v1.SolarPanelDeleted',
+    schema: Schema.Struct({ id: Schema.String, deletedAt: Schema.Date }),
+  }),
   uiStateSet: tables.uiState.set,
 }
 
@@ -51,6 +69,8 @@ const materializers = State.SQLite.materializers(events, {
   'v1.TodoUncompleted': ({ id }) => tables.todos.update({ completed: false }).where({ id }),
   'v1.TodoDeleted': ({ id, deletedAt }) => tables.todos.update({ deletedAt }).where({ id }),
   'v1.TodoClearedCompleted': ({ deletedAt }) => tables.todos.update({ deletedAt }).where({ completed: true }),
+  'v1.SolarPanelCreated': ({ id, x, y, z }) => tables.solarPanels.insert({ id, x, y, z }),
+  'v1.SolarPanelDeleted': ({ id, deletedAt }) => tables.solarPanels.update({ deletedAt }).where({ id }),
 })
 
 const state = State.SQLite.makeState({ tables, materializers })

@@ -10,9 +10,16 @@ export default defineConfig({
     port: process.env.PORT ? Number(process.env.PORT) : 60_001,
   },
   worker: { format: 'es' },
+  define: {
+    '__livestore': 'undefined',
+  },
+  optimizeDeps: {
+    exclude: ['@livestore/wa-sqlite'],
+  },
+  assetsInclude: ['**/*.wasm'],
   plugins: [
     react(),
-    livestoreDevtoolsPlugin({ schemaPath: './src/livestore/schema.ts' }),
+    // livestoreDevtoolsPlugin({ schemaPath: './src/livestore/schema.ts' }),
     // Running `wrangler dev` as part of `vite dev` needed for `@livestore/sync-cf`
     {
       name: 'wrangler-dev',
