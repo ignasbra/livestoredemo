@@ -6,25 +6,20 @@ import type React from 'react'
 import { unstable_batchedUpdates as batchUpdates } from 'react-dom'
 
 import { Canvas } from './components/Canvas.js'
-import { Footer } from './components/Footer.js'
-import { Header } from './components/Header.js'
-import { MainSection } from './components/MainSection.js'
 import { schema } from './livestore/schema.js'
 import LiveStoreWorker from './livestore.worker?worker'
 import { getStoreId } from './util/store-id.js'
 
 const AppBody: React.FC = () => (
   <>
-    <section className="todoapp">
-      <Header />
-      <MainSection />
-      <Footer />
-    </section>
+    <h1 style={{ textAlign: 'center', marginTop: '20px', color: '#333' }}>Solar Panel Field</h1>
+    <p style={{ textAlign: 'center', color: '#666', marginBottom: '20px' }}>Click on the canvas to add solar panels</p>
     <Canvas />
   </>
 )
 
-const storeId = getStoreId()
+// Use a new storeId to start with a fresh database after schema changes
+const storeId = 'solar-panel-field-v2'
 
 const adapter = makePersistedAdapter({
   storage: { type: 'opfs' },
