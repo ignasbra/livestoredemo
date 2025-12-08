@@ -5,6 +5,7 @@ import { FPSMeter } from '@overengineering/fps-meter'
 import type React from 'react'
 import { unstable_batchedUpdates as batchUpdates } from 'react-dom'
 
+import { AdminPanel } from './components/AdminPanel.js'
 import { Canvas } from './components/Canvas.js'
 import { schema } from './livestore/schema.js'
 import LiveStoreWorker from './livestore.worker?worker'
@@ -15,6 +16,7 @@ const AppBody: React.FC = () => (
     <h1 style={{ textAlign: 'center', marginTop: '20px', color: '#333' }}>Solar Panel Field</h1>
     <p style={{ textAlign: 'center', color: '#666', marginBottom: '20px' }}>Click on the canvas to add solar panels</p>
     <Canvas />
+    <AdminPanel />
   </>
 )
 
